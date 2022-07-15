@@ -12,7 +12,7 @@ const app = express();
 
 //app.use(cors());
 app.use(cors({
-    origin: 'https://shark-app-pmtlw.ondigitalocean.app'
+    origin: 'https://sharkss-app-pmtlw.ondigitalocean.app'
 }));
 
 const multerStorage = multer.diskStorage({
