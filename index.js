@@ -12,7 +12,7 @@ const app = express();
 
 //app.use(cors());
 app.use(cors({
-    origin: 'https://shark-app-pmtlw.ondigitalocean.app'
+    origin: 'https://sharks-app-pmtlw.ondigitalocean.app'
 }));
 
 const multerStorage = multer.diskStorage({
@@ -73,7 +73,7 @@ app.post('/products/image-upload', upload.single('image'), (req, res) => {
 });
 
 app.use('/', (req, res) => {
-    res.send('Hello to Ultimate Product Manager');
+    res.send('Hello to The Best Product Manager');
 })
 
 const PORT = process.env.PORT || 8000;
