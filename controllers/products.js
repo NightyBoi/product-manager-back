@@ -1,5 +1,8 @@
 import ProductMessage from "../models/productMessage.js";
 import PriceMessage from "../models/priceMessage.js";
+import UserMessage from "../models/userMessage.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 export const getProducts = async(req, res) => {
     try {
@@ -144,3 +147,56 @@ export const updatePricesBPX = async(req, res) => {
         res.status(491).json({ message: error.message });
     }
 }
+
+export const loginUser = async(req, res) => {
+    const password = req.body.password;
+
+    UserMessage.findOne({ _id: "62d5c4afe6554599bec5e9e6" }).then(user => {
+            if (user) {
+                bcrypt.compare(password, user.password, function(err, result) {
+                    if (err) {
+                        res.json({
+                            error: err
+                        })
+                    };
+                    if (result) {
+                        let token = jwt.sign({ user_id: user._id }, 'verySecretValue', { expiresIn: '8h' });
+                        res.json({
+                            message: "Login successful!",
+                            token: token
+                        })
+                    } else {
+                        res.json({
+                            message: "Password doesn't exist."
+                        })
+                    }
+
+                });
+            }
+        })
+        // try {
+        //     newUser.save();
+
+    //     res.status(201).json(newUser);
+    // } catch (error) {
+    //     res.status(490).json({ message: error.message });
+    // }
+}
+
+
+// export const registerUser = async(req, res) => {
+//     bcrypt.hash(req.body.password, 10, function(err, hashed) {
+//         if (err) {
+//             res.send(err);
+//         }
+//         const newUser = new UserMessage({ password: hashed });
+
+//         try {
+//             newUser.save();
+
+//             res.status(201).json(newUser);
+//         } catch (error) {
+//             res.status(490).json({ message: error.message });
+//         }
+//     });
+// }

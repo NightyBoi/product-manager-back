@@ -10,10 +10,10 @@ import productRoutes from './routes/products.js'
 const __dirname = path.resolve();
 const app = express();
 
-//app.use(cors());
-app.use(cors({
-    origin: 'https://shark-app-pmtlw.ondigitalocean.app'
-}));
+app.use(cors());
+// app.use(cors({
+//     origin: 'https://shark-app-pmtlw.ondigitalocean.app'
+// }));
 
 const multerStorage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -26,7 +26,7 @@ const multerStorage = multer.diskStorage({
 });
 
 const multerFilter = (req, file, cb) => {
-    if (file.mimetype.split("/")[1] === "png") {
+    if (file.mimetype.split("/")[1] === "png" || file.mimetype.split("/")[1] === "jpg" || file.mimetype.split("/")[1] === "jpeg") {
         cb(null, true);
     } else {
         cb(new Error("Not a PNG File!!"), false);
