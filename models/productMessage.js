@@ -7,7 +7,11 @@ const productSchema = mongoose.Schema({
     image: String,
     type: String,
     priceNXG: Number,
-    priceBPX: Number
+    priceBPX: Number,
+    used: {
+        type: Boolean,
+        default: false
+    }
 }, { timestamps: true });
 
 const ProductMessage = mongoose.model('ProductMessage', productSchema);

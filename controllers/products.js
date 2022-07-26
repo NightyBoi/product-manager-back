@@ -16,6 +16,31 @@ export const getProducts = async(req, res) => {
     }
 }
 
+export const getUnusedProducts = async(req, res) => {
+    try {
+        const productMessages = await ProductMessage.find({ used: false });
+
+        console.log(productMessages);
+
+        res.status(200).json(productMessages);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
+export const setProductsUse = async(req, res) => {
+    const use = req.body;
+
+    try {
+        const productMessages = await ProductMessage.updateMany({}, { used: false });
+
+        res.status(201).json(productMessages);
+    } catch (error) {
+        res.status(490).json({ message: error.message });
+    }
+}
+
+
 export const getPricesNXG = async(req, res) => {
     try {
         const priceMessages = await PriceMessage.find({ type: "NXG" });
@@ -113,6 +138,19 @@ export const updateProduct = async(req, res) => {
 
     try {
         const productMessages = await ProductMessage.findByIdAndUpdate(uid, product);
+
+        res.status(201).json(productMessages);
+    } catch (error) {
+        res.status(490).json({ message: error.message });
+    }
+}
+
+export const updateProductUse = async(req, res) => {
+    const newUse = req.body.used;
+    var uid = req.params.id.toString();
+
+    try {
+        const productMessages = await ProductMessage.findByIdAndUpdate(uid, { used: newUse });
 
         res.status(201).json(productMessages);
     } catch (error) {

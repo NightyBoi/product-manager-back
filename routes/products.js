@@ -1,5 +1,5 @@
 import express from 'express';
-import { getProducts, createProduct, deleteProduct, updateProduct, updatePricesNXG, updatePricesBPX, createPrice, getPricesNXG, getPricesBPX, getPricesALL, deletePrice, loginUser } from '../controllers/products.js';
+import { getProducts, getUnusedProducts, createProduct, deleteProduct, updateProduct, updateProductUse, updatePricesNXG, updatePricesBPX, createPrice, getPricesNXG, getPricesBPX, getPricesALL, deletePrice, loginUser, setProductsUse } from '../controllers/products.js';
 import { authMiddleware } from '../controllers/auth.js';
 
 const router = express.Router();
@@ -7,8 +7,11 @@ const router = express.Router();
 // All routes we can post/get to of our back-end server
 router.get('/', getProducts);
 router.post('/', createProduct);
+router.get('/unused', getUnusedProducts);
 router.get('/remove/:id', deleteProduct);
 router.post('/update/:id', updateProduct);
+router.post('/update-use/:id', updateProductUse);
+router.post('/products-use', setProductsUse);
 router.post('/update-prices-nxg', updatePricesNXG);
 router.post('/update-prices-bpx', updatePricesBPX);
 router.post('/add-price', createPrice);
