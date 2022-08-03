@@ -40,6 +40,19 @@ export const setProductsUse = async(req, res) => {
     }
 }
 
+export const setProductsUseByType = async(req, res) => {
+    const type = req.body.type;
+    //const use = req.body;
+
+    try {
+        const productMessages = await ProductMessage.updateMany({ type: type }, { used: false });
+
+        res.status(201).json(productMessages);
+    } catch (error) {
+        res.status(490).json({ message: error.message });
+    }
+}
+
 
 export const getPricesNXG = async(req, res) => {
     try {

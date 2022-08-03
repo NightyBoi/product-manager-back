@@ -1,5 +1,5 @@
 import express from 'express';
-import { getProducts, getUnusedProducts, createProduct, deleteProduct, updateProduct, updateProductUse, updatePricesNXG, updatePricesBPX, createPrice, getPricesNXG, getPricesBPX, getPricesALL, deletePrice, loginUser, setProductsUse } from '../controllers/products.js';
+import { getProducts, getUnusedProducts, createProduct, deleteProduct, updateProduct, updateProductUse, updatePricesNXG, updatePricesBPX, createPrice, getPricesNXG, getPricesBPX, getPricesALL, deletePrice, loginUser, setProductsUse, setProductsUseByType } from '../controllers/products.js';
 import { authMiddleware } from '../controllers/auth.js';
 
 const router = express.Router();
@@ -12,6 +12,7 @@ router.get('/remove/:id', deleteProduct);
 router.post('/update/:id', updateProduct);
 router.post('/update-use/:id', updateProductUse);
 router.post('/products-use', setProductsUse);
+router.post('/products-use-type', setProductsUseByType);
 router.post('/update-prices-nxg', updatePricesNXG);
 router.post('/update-prices-bpx', updatePricesBPX);
 router.post('/add-price', createPrice);
