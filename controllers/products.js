@@ -42,6 +42,7 @@ export const setProductsUse = async(req, res) => {
 
 export const setProductsUseByType = async(req, res) => {
     const type = req.body.type;
+    console.log(type);
     //const use = req.body;
 
     try {
