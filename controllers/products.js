@@ -95,6 +95,22 @@ export const getPricesBPX = async(req, res) => {
     }
 }
 
+export const getPricesBPXObject = async(req, res) => {
+    try {
+        const priceMessages = await PriceMessage.find({ type: "BPX" });
+
+        priceMessages.sort((function(a, b) {
+            return a.price - b.price;
+        }));
+
+        console.log(priceMessages);
+
+        res.send("var priceMessages = " + JSON.stringify(priceMessages) + ";");
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
 export const getPricesALL = async(req, res) => {
     try {
         const priceMessages = await PriceMessage.find();
