@@ -67,6 +67,18 @@ export const getPricesNXG = async(req, res) => {
     }
 }
 
+export const getPricesNXGObject = async(req, res) => {
+    try {
+        const priceMessages = await PriceMessage.find({ type: "NXG" });
+
+        console.log(priceMessages);
+
+        res.send(priceMessages);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
 export const getPricesBPX = async(req, res) => {
     try {
         const priceMessages = await PriceMessage.find({ type: "BPX" });
