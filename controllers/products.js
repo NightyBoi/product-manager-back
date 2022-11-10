@@ -71,6 +71,10 @@ export const getPricesNXGObject = async(req, res) => {
     try {
         const priceMessages = await PriceMessage.find({ type: "NXG" });
 
+        priceMessages.sort((function(a, b) {
+            return a.price - b.price;
+        }));
+
         console.log(priceMessages);
 
         res.send("var priceMessages = " + JSON.stringify(priceMessages) + ";");
