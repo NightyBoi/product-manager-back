@@ -10,10 +10,10 @@ import productRoutes from './routes/products.js'
 const __dirname = path.resolve();
 const app = express();
 
-//app.use(cors());
-app.use(cors({
-    origin: 'https://shark-app-pmtlw.ondigitalocean.app'
-}));
+app.use(cors());
+// app.use(cors({
+//     origin: 'https://shark-app-pmtlw.ondigitalocean.app'
+// }));
 
 const multerStorage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -73,7 +73,7 @@ app.post('/products/image-upload', upload.single('image'), (req, res) => {
 });
 
 app.use('/', (req, res) => {
-    res.send('Hello to The Best Product Manager');
+    res.send('console.log("HI!");');
 })
 
 const PORT = process.env.PORT || 8000;
