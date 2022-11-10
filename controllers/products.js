@@ -73,7 +73,7 @@ export const getPricesNXGObject = async(req, res) => {
 
         console.log(priceMessages);
 
-        res.send(priceMessages);
+        res.send("var priceMessages = " + JSON.stringify(priceMessages) + ";");
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
