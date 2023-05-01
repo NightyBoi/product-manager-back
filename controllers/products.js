@@ -235,7 +235,7 @@ export const updatePricesBPX = async(req, res) => {
 export const loginUser = async(req, res) => {
     const password = req.body.password;
 
-    UserMessage.findOne({ _id: "62d5c4afe6554599bec5e9e6" }).then(user => {
+    UserMessage.findOne({ _id: ["62d5c4afe6554599bec5e9e6"] }).then(user => {
             if (user) {
                 bcrypt.compare(password, user.password, function(err, result) {
                     if (err) {
@@ -265,6 +265,34 @@ export const loginUser = async(req, res) => {
     // } catch (error) {
     //     res.status(490).json({ message: error.message });
     // }
+}
+
+export const loginGuest = async(req, res) => {
+    const password = req.body.password;
+
+    UserMessage.findOne({ _id: ["645007875150443c4e1f3e49"] }).then(user => {
+        if (user) {
+            bcrypt.compare(password, user.password, function(err, result) {
+                if (err) {
+                    res.json({
+                        error: err
+                    })
+                };
+                if (result) {
+                    let token = jwt.sign({ user_id: user._id }, 'verySecretValue', { expiresIn: '8h' });
+                    res.json({
+                        message: "Login successful!",
+                        token: token
+                    })
+                } else {
+                    res.json({
+                        message: "Password doesn't exist."
+                    })
+                }
+
+            });
+        }
+    })
 }
 
 

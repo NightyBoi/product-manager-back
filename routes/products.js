@@ -1,5 +1,5 @@
 import express from 'express';
-import { getProducts, getUnusedProducts, createProduct, deleteProduct, updateProduct, updateProductUse, updatePricesNXG, updatePricesBPX, createPrice, getPricesNXG, getPricesBPX, getPricesALL, deletePrice, loginUser, setProductsUse, setProductsUseByType, getPricesNXGObject, getPricesBPXObject } from '../controllers/products.js';
+import { getProducts, getUnusedProducts, createProduct, deleteProduct, updateProduct, updateProductUse, updatePricesNXG, updatePricesBPX, createPrice, getPricesNXG, getPricesBPX, getPricesALL, deletePrice, loginUser, setProductsUse, setProductsUseByType, getPricesNXGObject, getPricesBPXObject, loginGuest } from '../controllers/products.js';
 import { authMiddleware } from '../controllers/auth.js';
 
 const router = express.Router();
@@ -23,6 +23,7 @@ router.get('/prices-bpx-object', getPricesBPXObject);
 router.get('/prices-all', getPricesALL);
 router.get('/remove-price/:id', deletePrice);
 router.post('/login', loginUser);
+router.post('/loginGuest', loginGuest);
 
 router.get('/get', authMiddleware, function(req, res) {
     res.json({ 'access': true });
