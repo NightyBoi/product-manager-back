@@ -1,6 +1,7 @@
 import ProductMessage from "../models/productMessage.js";
 import PriceMessage from "../models/priceMessage.js";
 import UserMessage from "../models/userMessage.js";
+import DiscountMessage from "../models/discountMessage.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -11,6 +12,34 @@ export const getProducts = async(req, res) => {
         console.log(productMessages);
 
         res.status(200).json(productMessages);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
+export const getDiscounts = async(req, res) => {
+    try {
+        const discountMessages = await DiscountMessage.find();
+
+        console.log(discountMessages);
+
+        res.status(200).json(discountMessages);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
+export const getDiscountsObject = async(req, res) => {
+    try {
+        const discountMessages = await DiscountMessage.find();
+
+        discountMessages.sort((function(a, b) {
+            return a.createdAt - b.createdAt;
+        }));
+
+        console.log(discountMessages);
+
+        res.send("var discountMessages = " + JSON.stringify(discountMessages) + ";");
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
@@ -138,6 +167,20 @@ export const createProduct = async(req, res) => {
     }
 }
 
+export const createDiscount = async(req, res) => {
+    const discount = req.body;
+
+    const newDiscount = new DiscountMessage(discount);
+
+    try {
+        await newDiscount.save();
+
+        res.status(201).json(newDiscount);
+    } catch (error) {
+        res.status(490).json({ message: error.message });
+    }
+}
+
 export const createPrice = async(req, res) => {
     const price = req.body;
 
@@ -178,6 +221,19 @@ export const deletePrice = async(req, res) => {
     }
 }
 
+export const deleteDiscount = async(req, res) => {
+
+    var uid = req.params.id.toString();
+
+    try {
+        const discountMessages = await DiscountMessage.findByIdAndDelete(uid);
+
+        res.status(201).json(discountMessages);
+    } catch (error) {
+        res.status(490).json({ message: error.message });
+    }
+}
+
 export const updateProduct = async(req, res) => {
     const product = req.body;
     var uid = req.params.id.toString();
@@ -186,6 +242,19 @@ export const updateProduct = async(req, res) => {
         const productMessages = await ProductMessage.findByIdAndUpdate(uid, product);
 
         res.status(201).json(productMessages);
+    } catch (error) {
+        res.status(490).json({ message: error.message });
+    }
+}
+
+export const updateDiscount = async(req, res) => {
+    const discount = req.body;
+    var uid = req.params.id.toString();
+
+    try {
+        const discountMessages = await DiscountMessage.findByIdAndUpdate(uid, discount);
+
+        res.status(201).json(discountMessages);
     } catch (error) {
         res.status(490).json({ message: error.message });
     }
