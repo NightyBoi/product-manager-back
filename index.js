@@ -12,7 +12,7 @@ const app = express();
 
 //app.use(cors());
 app.use(cors({
-    origin: 'https://sea-turtle-app-sgacz.ondigitalocean.app'
+    origin: ['https://shark-app-pmtlw.ondigitalocean.app', 'https://sea-turtle-app-sgacz.ondigitalocean.app']
 }));
 
 const multerStorage = multer.diskStorage({
