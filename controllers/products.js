@@ -98,13 +98,24 @@ export const getPricesNXG = async(req, res) => {
 
 export const getPricesNXGObject = async(req, res) => {
     try {
-        const priceMessages = await PriceMessage.find({ type: "NXG" });
+        const priceMessages = await PriceMessage.find({ type: "NXG" }).lean();
+        const discountMessages = await DiscountMessage.find().lean();
 
         priceMessages.sort((function(a, b) {
             return a.price - b.price;
         }));
 
-        console.log(priceMessages);
+        discountMessages.sort((function(a, b) {
+            return a.createdAt - b.createdAt;
+        }));
+
+        for (let i = 0; i < discountMessages.length; i++) {
+            console.log("Before", priceMessages[i]);
+            priceMessages[i].discount = discountMessages[i].discount;
+            console.log("After", priceMessages[i]);
+        }
+
+        console.log("Final output", priceMessages);
 
         res.send("var priceMessages = " + JSON.stringify(priceMessages) + ";");
     } catch (error) {
