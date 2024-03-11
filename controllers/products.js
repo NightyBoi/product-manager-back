@@ -100,8 +100,13 @@ export const getPricesNXGObject = async(req, res) => {
     try {
         const priceMessages = await PriceMessage.find({ type: "NXG" }).lean();
         const discountMessages = await DiscountMessage.find().lean();
+        const priceMessagesINCOG = await PriceMessage.find({ type: "BPX" }).lean();
 
         priceMessages.sort((function(a, b) {
+            return a.price - b.price;
+        }));
+
+        priceMessagesINCOG.sort((function(a, b) {
             return a.price - b.price;
         }));
 
@@ -112,6 +117,12 @@ export const getPricesNXGObject = async(req, res) => {
         for (let i = 0; i < discountMessages.length; i++) {
             console.log("Before", priceMessages[i]);
             priceMessages[i].discount = discountMessages[i].discount;
+            console.log("After", priceMessages[i]);
+        }
+
+        for (let i = 0; i < priceMessagesINCOG.length; i++) {
+            console.log("Before", priceMessages[i]);
+            priceMessages[i].incog = priceMessagesINCOG[i].price;
             console.log("After", priceMessages[i]);
         }
 
@@ -285,12 +296,13 @@ export const updateProductUse = async(req, res) => {
 }
 
 export const updatePricesNXG = async(req, res) => {
-    const newPrice = req.body.newPrice;
+    const newPriceNXG = req.body.newPriceNXG;
+    const newPriceINCOG = req.body.newPriceINCOG;
     const oldPrice = req.body.oldPrice;
 
     try {
-        const productMessages = await ProductMessage.updateMany({ priceNXG: oldPrice }, { priceNXG: newPrice });
-        const priceMessages = await PriceMessage.updateOne({ price: oldPrice, type: "NXG" }, { price: newPrice });
+        const productMessages = await ProductMessage.updateMany({ priceNXG: oldPrice }, { priceNXG: newPriceNXG, priceBPX: newPriceINCOG });
+        const priceMessages = await PriceMessage.updateOne({ price: oldPrice, type: "NXG" }, { price: newPriceNXG });
 
         res.status(201).json(productMessages);
     } catch (error) {
@@ -299,7 +311,7 @@ export const updatePricesNXG = async(req, res) => {
 }
 
 export const updatePricesBPX = async(req, res) => {
-    const newPrice = req.body.newPrice;
+    const newPrice = req.body.newPriceINCOG;
     const oldPrice = req.body.oldPrice;
 
     try {
