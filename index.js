@@ -10,7 +10,7 @@ import productRoutes from './routes/products.js'
 const __dirname = path.resolve();
 const app = express();
 
-// app.use(cors());
+//app.use(cors());
 app.use(cors({
     origin: ['https://shark-app-pmtlw.ondigitalocean.app', 'https://sea-turtle-app-sgacz.ondigitalocean.app']
 }));
