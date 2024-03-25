@@ -102,6 +102,7 @@ export const getPricesNXGObject = async(req, res) => {
         const discountMessages = await DiscountMessage.find().lean();
         const priceMessagesINCOG = await PriceMessage.find({ type: "BPX" }).lean();
         const priceMessagesMDOG = await PriceMessage.find({ type: "MDOG" }).lean();
+        const priceMessagesJ9 = await PriceMessage.find({ type: "J9" }).lean();
 
         priceMessages.sort((function(a, b) {
             return a.price - b.price;
@@ -130,6 +131,12 @@ export const getPricesNXGObject = async(req, res) => {
         for (let i = 0; i < priceMessagesMDOG.length; i++) {
             console.log("Before", priceMessages[i]);
             priceMessages[i].mdog = priceMessagesMDOG[i].price;
+            console.log("After", priceMessages[i]);
+        }
+
+        for (let i = 0; i < priceMessagesJ9.length; i++) {
+            console.log("Before", priceMessages[i]);
+            priceMessages[i].j9 = priceMessagesJ9[i].price;
             console.log("After", priceMessages[i]);
         }
 
