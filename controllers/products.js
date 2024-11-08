@@ -112,6 +112,14 @@ export const getPricesNXGObject = async(req, res) => {
             return a.price - b.price;
         }));
 
+        priceMessagesMDOG.sort((function(a, b) {
+            return a.price - b.price;
+        }));
+
+        priceMessagesJ9.sort((function(a, b) {
+            return a.price - b.price;
+        }));
+
         discountMessages.sort((function(a, b) {
             return a.createdAt - b.createdAt;
         }));
@@ -311,11 +319,11 @@ export const updateProductUse = async(req, res) => {
 
 export const updatePricesNXG = async(req, res) => {
     const newPriceNXG = req.body.newPriceNXG;
-    const newPriceINCOG = req.body.newPriceINCOG;
+    //const newPriceINCOG = req.body.newPriceINCOG;
     const oldPrice = req.body.oldPrice;
 
     try {
-        const productMessages = await ProductMessage.updateMany({ priceNXG: oldPrice }, { priceNXG: newPriceNXG, priceBPX: newPriceINCOG });
+        const productMessages = await ProductMessage.updateMany({ priceNXG: oldPrice }, { priceNXG: newPriceNXG });
         const priceMessages = await PriceMessage.updateOne({ price: oldPrice, type: "NXG" }, { price: newPriceNXG });
 
         res.status(201).json(productMessages);
@@ -341,7 +349,7 @@ export const updatePricesBPX = async(req, res) => {
 export const loginUser = async(req, res) => {
     const password = req.body.password;
 
-    UserMessage.findOne({ _id: ["62d5c4afe6554599bec5e9e6"] }).then(user => {
+    UserMessage.findOne({ _id: ["672e86e431de2d5b5a192ddc"] }).then(user => {
             if (user) {
                 bcrypt.compare(password, user.password, function(err, result) {
                     if (err) {
